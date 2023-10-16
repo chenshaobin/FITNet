@@ -14,7 +14,7 @@ from collections import Counter
 import random
 
 class get_k_fold_Data:
-    def __init__(self, excelFileSavePath: str, imgRootPath: str, kFold: int, num_class=4):
+    def __init__(self, excelFileSavePath: str, imgRootPath: str, kFold: int, num_class=2):
         """
         :param excelFileSavePath: The path of the excel file to be stored
         :param imgRootPath: The image storage path, the images under this path have been classified according to folders,
@@ -38,6 +38,19 @@ class get_k_fold_Data:
         dataLength = len(data)
         train = []
         valid = []
+
+        # # Get indices of current fold
+        # if kthFold == self.kFold - 1:
+        #     idx = slice(kthFold * everyFoldSize, dataLength)
+        # else:
+        #     idx = slice(kthFold * everyFoldSize, (kthFold + 1) * everyFoldSize)
+        #
+        # valid_percent = 0.2
+
+
+
+
+
         for j in range(self.kFold):
             idx = slice(j * everyFoldSize, (j + 1) * everyFoldSize)
             data_part = data[idx]
@@ -67,8 +80,7 @@ class get_k_fold_Data:
         df = pd.DataFrame(data=excelData)
         with pd.ExcelWriter(self.excelFileSavePath, mode='a', engine='openpyxl') as writer:
             df.to_excel(writer, sheet_name=sheet_name,  index=False)
-        writer.save()
-        writer.close()
+
 
     def getKFoldData(self):
         # Statistical image file name and corresponding label, format:{'img':img1.tif, 'label': 0}
@@ -126,8 +138,8 @@ class get_k_fold_Data:
 
 if __name__ == '__main__':
     # Get k-fold data
-    excelFileSavePath = r'xxx\xxx.xlsx'
-    imgRootPath = r'xxx\imgPath'
+    excelFileSavePath = r'Fold_Split.xlsx'
+    imgRootPath = r'C:/Users/jrb187/PycharmProjects/FITNet/organized_data'
     kFold = 10
-    mainObj = get_k_fold_Data(excelFileSavePath=excelFileSavePath, imgRootPath=imgRootPath, kFold=kFold, num_class=4)
+    mainObj = get_k_fold_Data(excelFileSavePath=excelFileSavePath, imgRootPath=imgRootPath, kFold=kFold, num_class=2)
     mainObj.getKFoldData()
