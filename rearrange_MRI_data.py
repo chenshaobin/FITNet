@@ -54,6 +54,7 @@ def get_save_file_name(image_number, slice_idx, extension):
 
 
 def get_save_location(label):
+    """Get the global save location depending on the image classification"""
     if label == '0':
         save_location = 'C:/Users/jrb187/PycharmProjects/FITNet/organized_data/0NORMAL'
     elif label == '1':
@@ -61,12 +62,11 @@ def get_save_location(label):
     return save_location
 
 
-
 if __name__ == '__main__':
-    start_path = "C:/Users/jrb187/Downloads/MRNet-v1.0/train"
-    label_file = "C:/Users/jrb187/Downloads/MRNet-v1.0/train-acl.csv"
+    start_path = "C:/Users/jrb187/Downloads/MRNet-v1.0/train"  # location of data
+    label_file = "C:/Users/jrb187/Downloads/MRNet-v1.0/train-acl.csv"  # location of classification file
 
-    dimension = "sagittal"
+    dimension = "sagittal"  # dimension we want
 
     d = dictionary_reader(label_file)
 
