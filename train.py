@@ -2,9 +2,9 @@ from trainUtil.trainingUtil import TrainUtil
 from data.readDataFromExcel import getDataFromExcelFile as getOCTFile
 
 if __name__ == '__main__':
-    dataSetName = 'Basel'
+    dataSetName = 'ACL'
     kFold = 10
-    classNumber = 3
+    classNumber = 2
     imgSize = 224
     epoch_num = 100
     baseLR = 1e-3
@@ -13,13 +13,13 @@ if __name__ == '__main__':
     lossName = 'crossEntropyLoss'   # or 'focalLoss'
     optimizer = 'SGD'
     # Set the threshold for saving the model
-    saveValAcc = 94.0
-    saveModelNumber = 50
+    saveValAcc = 50.0
+    saveModelNumber = 1
 
     encoder = 'FITNet'
-    imgDataRoot = 'xxx/ImgData'
-    trainExcelFilePath = 'xxx/OCT_Basel_Data.xlsx'
-    resultRootPath = 'xxx/Basel/10FoldResult'
+    imgDataRoot = 'C:/Users/jrb187/PycharmProjects/FITNet/subset_data/2D_Images'
+    trainExcelFilePath = 'C:/Users/jrb187/PycharmProjects/FITNet/data/Fold_Split.xlsx'
+    resultRootPath = 'C:/Users/jrb187/PycharmProjects/FITNet/data/10FoldResult'
 
     for fold in range(kFold):
         trainExcelSheetName = 'train_fold{}'.format(fold)

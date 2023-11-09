@@ -17,10 +17,10 @@ import time
 class TrainUtil:
     def __init__(self, dataSetName: str, classNumber: int, trainDataRoot: str, validDataRoot: str,
                  encoder: str, getDataFunc, resultRootPath='/xxx/ExperimenResult',
-                 baseLR=1e-3, lr_scheduler='step', gpuNumber="cuda:3", saveValAcc=95.0,
+                 baseLR=1e-3, lr_scheduler='step', gpuNumber="cuda:3", saveValAcc=70.0,
                  saveModelNumber=100, lossName='crossEntropyLoss', optimizer='Adam', dataSetFlag=None,
                  imgSize=224, epoch_num=200, preWeight=None, imgDataRoot=None, trainExcelFilePath=None,
-                 teacher=None, fold=None, noise=None, batchSize=64, focalLossGamma=2):
+                 teacher=None, fold=None, noise=None, batchSize=48, focalLossGamma=2):
         self.dataSetName = dataSetName
         self.classNumber = classNumber
         self.epoch_num = epoch_num
@@ -249,9 +249,9 @@ class TrainUtil:
                 if val_acc >= config.saveValAcc and saveModelNum <= config.saveModelNumber:
                     saveModelNum += 1
                     if self.fold is not None:
-                        modelFileName = 'fold%d_OCT_%s_%s_%d_[%.4f].pth' % (self.fold, config.dataSetName, config.encoder, epoch, val_acc)
+                        modelFileName = 'fold%d_ACL_%s_%s_%d_[%.4f].pth' % (self.fold, config.dataSetName, config.encoder, epoch, val_acc)
                     else:
-                        modelFileName = 'OCT_%s_%s_%d_[%.4f].pth' % (config.dataSetName, config.encoder, epoch, val_acc)
+                        modelFileName = 'ACL_%s_%s_%d_[%.4f].pth' % (config.dataSetName, config.encoder, epoch, val_acc)
                     save_path = os.path.join(model_params_dir, modelFileName)
                     torch.save(model.state_dict(), save_path)
                     logging.info('saved model to %s' % save_path)
@@ -260,7 +260,7 @@ class TrainUtil:
                 if val_acc >= bestAcc:
                     bestAcc = val_acc
                     if self.fold is not None:
-                        modelFileName = 'fold%d_OCT_%s_%s_best.pth' % (self.fold, config.dataSetName, config.encoder)
+                        modelFileName = 'fold%d_ACL_%s_%s_best.pth' % (self.fold, config.dataSetName, config.encoder)
                         save_path = os.path.join(config.bestModelParamDir, modelFileName)
                         torch.save(model.state_dict(), save_path)
                         logging.info('saved best model to %s' % save_path)

@@ -139,7 +139,7 @@ class get_k_fold_Data:
 if __name__ == '__main__':
     # Get k-fold data
     excelFileSavePath = r'Fold_Split.xlsx'
-    imgRootPath = r'C:/Users/jrb187/PycharmProjects/FITNet/organized_data'
+    imgRootPath = r'C:/Users/jrb187/PycharmProjects/FITNet/subset_data'
     kFold = 10
     mainObj = get_k_fold_Data(excelFileSavePath=excelFileSavePath, imgRootPath=imgRootPath, kFold=kFold, num_class=2)
     mainObj.getKFoldData()

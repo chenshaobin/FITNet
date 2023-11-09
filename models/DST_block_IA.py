@@ -179,12 +179,17 @@ class ImageFeatureEmbedder(nn.Module):
         dim,
         image_size,
         patch_size,
-        dropout=0.
+        dropout=0.,
     ):
         super().__init__()
         assert image_size % patch_size == 0, 'Image feature dimensions must be divisible by the patch size.'
         num_patches = (image_size // patch_size) ** 2
         patch_dim = channel * patch_size ** 2
+
+        print('Image size: {}'.format(image_size))
+        print("Patch size: {}".format(patch_size))
+        print('Patch dimension: {}'.format(patch_dim))
+        print("Number Patches: {}".format(num_patches))
 
         self.to_patch_embedding = nn.Sequential(
             Rearrange('b c (h p1) (w p2) -> b (h w) (p1 p2 c)', p1 = patch_size, p2 = patch_size),
@@ -217,7 +222,7 @@ class DST_block_IA(nn.Module):
         num_classes,
         sm_dim,
         lg_dim,
-        sm_patch_size=12,
+        sm_patch_size=8,
         sm_enc_depth=1,
         sm_enc_heads=8,
         sm_enc_mlp_dim=2048,
@@ -274,6 +279,7 @@ class DST_block_IA(nn.Module):
 
 
 if __name__ == '__main__':
+    # Bottom (larger)
     v1 = DST_block_IA(
         sm_image_size=112,
         sm_channel=4,
@@ -286,7 +292,7 @@ if __name__ == '__main__':
         sm_enc_depth=5,
         sm_enc_heads=8,
         sm_enc_mlp_dim=2048,
-        lg_dim=512,
+        lg_dim=192,
         lg_patch_size=8,
         lg_enc_depth=5,
         lg_enc_heads=8,
@@ -296,8 +302,9 @@ if __name__ == '__main__':
         dropout=0.1,
         emb_dropout=0.1
     )
+    # Top (smaller)
     v2 = DST_block_IA(
-        sm_image_size = 28,
+        sm_image_size=28,
         sm_channel=16,
         lg_image_size=14,
         lg_channel=32,
@@ -319,10 +326,13 @@ if __name__ == '__main__':
         emb_dropout=0.1
     )
 
-    feature1 = torch.randn(1, 4, 112, 112)
-    feature2 = torch.randn(1, 8, 56, 56)
+    # feature1 = torch.randn(1, 4, 112, 112)
+    # feature2 = torch.randn(1, 8, 56, 56)
     pre1 = v1(feature1, feature2)
 
-    feature3 = torch.randn(1, 16, 28, 28)
-    feature4 = torch.randn(1, 32, 14, 14)
+    # feature3 = torch.randn(1, 16, 28, 28)
+    # feature4 = torch.randn(1, 32, 14, 14)
+
+    # feature1 = torch.randn(1, 4, 128, 128)
+    # feature2 = torch.randn(1, 8,
     pre2 = v2(feature3, feature4)
